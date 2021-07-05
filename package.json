@@ -1,0 +1,25 @@
+{
+  "name": "ovo-everyday",
+  "version": "1.0.0",
+  "description": "Server side implementation of nodejs for OvO.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/HoshinoSuzumi/OvO-everyday.git"
+  },
+  "keywords": [
+    "comment-plugin"
+  ],
+  "author": "HoshinoSuzumi",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/HoshinoSuzumi/OvO-everyday/issues"
+  },
+  "homepage": "https://github.com/HoshinoSuzumi/OvO-everyday#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
