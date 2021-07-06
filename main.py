@@ -32,12 +32,7 @@ async def root():
     }
 
 
-class ResponseModelComment(BaseModel):
-    done: bool
-    comments: List[schemas.Comment]
-
-
-@app.get('/comment', response_model=ResponseModelComment)
+@app.get('/comment', response_model=schemas.CommentResponse)
 def read_comment(domain: str, path: str, offset: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     comments = crud.get_comments(db=db, domain=domain, path=path, offset=offset, limit=limit)
     return {
