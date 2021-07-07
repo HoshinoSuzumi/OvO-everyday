@@ -4,6 +4,10 @@ from sqlalchemy.orm import relationship
 from database import ModelBase
 
 
+# class User(ModelBase):
+#     __tablename__ = 'emails'
+
+
 class Comment(ModelBase):
     __tablename__ = 'comments'
 

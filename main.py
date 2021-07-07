@@ -2,7 +2,7 @@ import json
 from typing import List
 from pydantic import BaseModel
 
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
 from sqlalchemy.orm import Session
@@ -55,6 +55,13 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+@app.middleware('http')
+async def domain_verify(req: Request, call_next):
+    print('Middleware #1 ', req.headers['host'])
+    res = await call_next(req)
+    return res
 
 
 @app.get('/')

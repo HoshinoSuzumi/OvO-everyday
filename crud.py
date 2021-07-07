@@ -1,5 +1,6 @@
 import datetime
 import json
+import urllib.parse
 
 from sqlalchemy.orm import Session
 
@@ -14,8 +15,8 @@ def get_comments_count(db: Session):
 
 def get_comments(db: Session, domain: str, path: str, offset: int = 0, limit: int = 10):
     return db.query(models.Comment) \
-        .filter(models.Comment.domain == domain) \
-        .filter(models.Comment.path == path) \
+        .filter(models.Comment.domain == urllib.parse.unquote(domain)) \
+        .filter(models.Comment.path == urllib.parse.unquote(path)) \
         .offset(offset).limit(limit).all()
 
 
