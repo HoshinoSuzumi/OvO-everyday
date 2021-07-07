@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OvO Everyday!</title>
+    <link rel="stylesheet" href="https://unpkg.com/@ovojs/ovo/dist/style.css">
+    <script src="https://unpkg.com/@ovojs/ovo"></script>
+</head>
+<body>
+<div id="ovo"></div>
+<script>
+    new OvO({
+        target: document.getElementById('ovo'),
+        props: {
+            emoji: "https://cdn.jsdelivr.net/gh/DejavuMoe/DejavuMoe/emoji.json\n",
+            server: "http://127.0.0.1:8000"
+        }
+    })
+</script>
+</body>
+</html>

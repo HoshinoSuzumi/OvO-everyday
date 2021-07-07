@@ -4,12 +4,24 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 
+class UserBase(BaseModel):
+    name: str
+    website: str
+
+
+class UserCreate(UserBase):
+    email: str
+
+
+class User(UserBase):
+    class Config:
+        orm_mode = True
+
+
 class ReplyBase(BaseModel):
     content: str
-    sender_name: str
-    sender_mail: str
-    sender_site: str
-    attached_to: str
+    user: User
+    cid: str
 
 
 class ReplyCreate(ReplyBase):
@@ -17,8 +29,8 @@ class ReplyCreate(ReplyBase):
 
 
 class Reply(ReplyBase):
-    uuid: str
-    create_time: Optional[datetime.datetime] = None
+    id: str
+    ctime: Optional[datetime.datetime] = None
 
     class Config:
         orm_mode = True
@@ -28,9 +40,7 @@ class CommentBase(BaseModel):
     content: str
     domain: str
     path: str
-    sender_name: str
-    sender_mail: str
-    sender_site: str
+    user: User
 
 
 class CommentCreate(CommentBase):
@@ -38,9 +48,9 @@ class CommentCreate(CommentBase):
 
 
 class Comment(CommentBase):
-    uuid: str
-    create_time: Optional[datetime.datetime] = None
-    replies: List[Reply] = []
+    id: str
+    ctime: Optional[datetime.datetime] = None
+    children: List[Reply] = []
 
     class Config:
         orm_mode = True

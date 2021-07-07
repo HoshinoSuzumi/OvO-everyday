@@ -1,4 +1,6 @@
 import datetime
+import json
+
 from sqlalchemy.orm import Session
 
 from utils import Utils
@@ -19,14 +21,26 @@ def get_comments(db: Session, domain: str, path: str, offset: int = 0, limit: in
 
 def create_comment(db: Session, comment: schemas.CommentCreate):
     db_comment = models.Comment(
-        uuid=str(Utils.uuid_unmapped()),
+        id=str(Utils.uuid_unmapped()),
         content=comment.content,
         domain=comment.domain,
         path=comment.path,
-        create_time=datetime.datetime.now(),
-        sender_name=comment.sender_name,
-        sender_mail=comment.sender_mail,
-        sender_site=comment.sender_site
+        ctime=datetime.datetime.now(),
+        user=dict(comment.user)
     )
     db.add(db_comment)
     db.commit()
+    db.refresh(db_comment)
+    return db_comment
+
+
+def create_reply(db: Session, reply: schemas.ReplyCreate):
+    db_reply = models.Reply(
+        **reply.dict(),
+        id=str(Utils.uuid_unmapped()),
+        ctime=datetime.datetime.now()
+    )
+    db.add(db_reply)
+    db.commit()
+    db.refresh(db_reply)
+    return db_reply

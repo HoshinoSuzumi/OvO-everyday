@@ -3,6 +3,8 @@ from typing import List
 from pydantic import BaseModel
 
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.openapi.utils import get_openapi
 from sqlalchemy.orm import Session
 
 import crud
@@ -14,6 +16,37 @@ from utils import Utils
 models.ModelBase.metadata.create_all(bind=DATABASE_ENGINE)
 
 app = FastAPI()
+
+# CORS Settings
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+# API Documents config
+def custom_openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+    openapi_schema = get_openapi(
+        title="OvO Everyday",
+        version="1.0.1",
+        description="Have a nice day!",
+        routes=app.routes,
+    )
+    openapi_schema["info"]["x-logo"] = {
+        "url": "https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png"
+    }
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+
+app.openapi = custom_openapi
 
 
 def get_db():
@@ -33,10 +66,10 @@ async def root():
 
 
 @app.get('/comment', response_model=schemas.CommentResponse)
-def read_comment(domain: str, path: str, offset: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    comments = crud.get_comments(db=db, domain=domain, path=path, offset=offset, limit=limit)
+def read_comment(domain: str, path: str, page: int = 0, db: Session = Depends(get_db)):
+    comments = crud.get_comments(db=db, domain=domain, path=path, offset=page * 10)
     return {
-        'done': Utils.is_fetch_done(crud.get_comments_count(db), offset, limit),
+        'done': Utils.is_fetch_done(crud.get_comments_count(db), page * 10, 10),
         'comments': comments
     }
 
@@ -44,3 +77,8 @@ def read_comment(domain: str, path: str, offset: int = 0, limit: int = 10, db: S
 @app.post('/comment', response_model=schemas.Comment)
 def create_comment(comment: schemas.CommentCreate, db: Session = Depends(get_db)):
     return crud.create_comment(db=db, comment=comment)
+
+
+@app.post('/reply', response_model=schemas.Reply)
+def create_reply(reply: schemas.ReplyCreate, db: Session = Depends(get_db)):
+    return crud.create_reply(db=db, reply=reply)

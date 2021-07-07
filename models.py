@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Text, DateTime
-# from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Text, DateTime, ForeignKey, String, JSON
+from sqlalchemy.orm import relationship
 
 from database import ModelBase
 
@@ -7,27 +7,26 @@ from database import ModelBase
 class Comment(ModelBase):
     __tablename__ = 'comments'
 
-    uuid = Column(Text, primary_key=True)
+    id = Column(Text, primary_key=True)
     content = Column(Text)
-    create_time = Column(DateTime)
+    ctime = Column(DateTime)
 
     domain = Column(Text)
     path = Column(Text)
     # Sender info
-    sender_name = Column(Text)
-    sender_mail = Column(Text)
-    sender_site = Column(Text)
+    user = Column(JSON)
+
+    children = relationship("Reply", back_populates="comment")
 
 
 class Reply(ModelBase):
     __tablename__ = 'replies'
 
-    uuid = Column(Text, primary_key=True)
+    id = Column(Text, primary_key=True)
     content = Column(Text)
-    create_time = Column(DateTime)
+    ctime = Column(DateTime)
     # Sender info
-    sender_name = Column(Text)
-    sender_mail = Column(Text)
-    sender_site = Column(Text)
+    user = Column(JSON)
     # Comment uuid
-    attached_to = Column(Text)
+    cid = Column(Text, ForeignKey('comments.id'))
+    comment = relationship("Comment", back_populates="children")
