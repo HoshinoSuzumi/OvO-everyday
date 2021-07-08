@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 _xss_tags_whitelist = {
     'p': [],
-    'h1': ['class']
+    'h1': []
 }
 
 

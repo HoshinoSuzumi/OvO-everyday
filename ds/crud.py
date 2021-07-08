@@ -29,10 +29,10 @@ def get_user_by_name(db: Session, name: str):
 def create_comment(db: Session, comment: schemas.CommentCreate):
     db_comment = models.Comment(
         id=str(Utils.uuid_unmapped()),
-        content=comment.content,
+        ctime=datetime.datetime.now(),
+        content=Utils.xss_filter(comment.content),
         domain=comment.domain,
         path=comment.path,
-        ctime=datetime.datetime.now(),
         user=dict(comment.user)
     )
     db.add(db_comment)
@@ -58,9 +58,11 @@ def create_or_update_user(db: Session, user: schemas.UserCreate):
 
 def create_reply(db: Session, reply: schemas.ReplyCreate):
     db_reply = models.Reply(
-        **reply.dict(),
         id=str(Utils.uuid_unmapped()),
-        ctime=datetime.datetime.now()
+        ctime=datetime.datetime.now(),
+        content=Utils.xss_filter(reply.content),
+        user=reply.user,
+        cid=reply.cid
     )
     db.add(db_reply)
     db.commit()
