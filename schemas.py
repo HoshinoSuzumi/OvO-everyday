@@ -25,7 +25,7 @@ class ReplyBase(BaseModel):
 
 
 class ReplyCreate(ReplyBase):
-    pass
+    user: UserCreate
 
 
 class Reply(ReplyBase):
@@ -44,7 +44,7 @@ class CommentBase(BaseModel):
 
 
 class CommentCreate(CommentBase):
-    pass
+    user: UserCreate
 
 
 class Comment(CommentBase):

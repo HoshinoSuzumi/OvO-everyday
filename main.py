@@ -83,6 +83,7 @@ def read_comment(domain: str, path: str, page: int = 0, db: Session = Depends(ge
 
 @app.post('/comment', response_model=schemas.Comment)
 def create_comment(comment: schemas.CommentCreate, db: Session = Depends(get_db)):
+    crud.create_or_update_user(db, comment.user)
     return crud.create_comment(db=db, comment=comment)
 
 

@@ -1,5 +1,4 @@
 import datetime
-import json
 import urllib.parse
 
 from sqlalchemy.orm import Session
@@ -20,6 +19,14 @@ def get_comments(db: Session, domain: str, path: str, offset: int = 0, limit: in
         .offset(offset).limit(limit).all()
 
 
+def get_user_by_email(db: Session, email: str):
+    return db.query(models.User).filter(models.User.email == email).first()
+
+
+def get_user_by_name(db: Session, name: str):
+    return db.query(models.User).filter(models.User.name == name).first()
+
+
 def create_comment(db: Session, comment: schemas.CommentCreate):
     db_comment = models.Comment(
         id=str(Utils.uuid_unmapped()),
@@ -33,6 +40,21 @@ def create_comment(db: Session, comment: schemas.CommentCreate):
     db.commit()
     db.refresh(db_comment)
     return db_comment
+
+
+def create_or_update_user(db: Session, user: schemas.UserCreate):
+    db_user = db.query(models.User).filter(models.User.email == user.email).first()
+    if db_user is None:
+        db_user = models.User(**user.dict())
+        db.add(db_user)
+        db.commit()
+        db.refresh(db_user)
+    else:
+        db_user = db.query(models.User).filter(models.User.email == user.email)
+        db_user.update(dict(user))
+        db.commit()
+        db.refresh(db_user.first())
+    return db_user
 
 
 def create_reply(db: Session, reply: schemas.ReplyCreate):

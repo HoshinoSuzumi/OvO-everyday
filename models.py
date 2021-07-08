@@ -1,11 +1,17 @@
-from sqlalchemy import Column, Text, DateTime, ForeignKey, String, JSON
+from typing import List
+
+from sqlalchemy import Column, Text, DateTime, ForeignKey, Integer, JSON
 from sqlalchemy.orm import relationship
 
 from database import ModelBase
 
 
-# class User(ModelBase):
-#     __tablename__ = 'emails'
+class User(ModelBase):
+    __tablename__ = 'users'
+
+    email = Column(Text, primary_key=True)
+    name = Column(Text)
+    website = Column(Text)
 
 
 class Comment(ModelBase):
