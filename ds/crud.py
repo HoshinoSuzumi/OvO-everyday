@@ -4,8 +4,7 @@ import urllib.parse
 from sqlalchemy.orm import Session
 
 from utils import Utils
-import models
-import schemas
+from . import models, schemas
 
 
 def get_comments_count(db: Session):

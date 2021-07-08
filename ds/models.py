@@ -1,9 +1,7 @@
-from typing import List
-
 from sqlalchemy import Column, Text, DateTime, ForeignKey, Integer, JSON
 from sqlalchemy.orm import relationship
 
-from database import ModelBase
+from .database import ModelBase
 
 
 class User(ModelBase):

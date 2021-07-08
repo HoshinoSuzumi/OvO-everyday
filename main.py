@@ -7,13 +7,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
 from sqlalchemy.orm import Session
 
-import crud
-import models
-import schemas
-from database import SessionLocal, DATABASE_ENGINE
+from ds import *
 from utils import Utils
 
-models.ModelBase.metadata.create_all(bind=DATABASE_ENGINE)
+models.ModelBase.metadata.create_all(bind=database.DATABASE_ENGINE)
 
 app = FastAPI()
 
@@ -50,7 +47,7 @@ app.openapi = custom_openapi
 
 
 def get_db():
-    db = SessionLocal()
+    db = database.SessionLocal()
     try:
         yield db
     finally:
