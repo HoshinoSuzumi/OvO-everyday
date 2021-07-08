@@ -3,7 +3,35 @@ from bs4 import BeautifulSoup
 
 _xss_tags_whitelist = {
     'p': [],
-    'h1': []
+    'i': [],
+    'b': [],
+    'a': ['href', 'title', 'target'],
+    'h1': [],
+    'h2': [],
+    'h3': [],
+    'h4': [],
+    'h5': [],
+    'tr': [],
+    'td': [],
+    'th': [],
+    'em': [],
+    'hr': [],
+    'br': [],
+    'ol': [],
+    'ul': [],
+    'li': [],
+    'img': ['src', 'alt'],
+    'del': [],
+    'pre': [],
+    'code': [],
+    'span': [],
+    'table': [],
+    'thead': [],
+    'tbody': [],
+    'tfoot': [],
+    'strong': [],
+    'codespan': [],
+    'blockquote': [],
 }
 
 
