@@ -8,6 +8,32 @@ OvO is a great self-deployed comment system
 
 ~~Pigeon Oriented Programming~~
 
+# Features
+
+## Email notification
+
+**Protocol support**
+
+- [x] Exchange support
+- [ ] SMTP support
+
+**Extra functions**
+
+- [x] Custom HTML template
+
+## Security
+
+**XSS Filter**
+
+- [x] Whitelist of HTML tags and attributes
+- [x] Blacklist of value of attributes
+
+## Data storage
+
+> SQLite is easy to migrate, deploy and manage. So currently it will not support other databases
+
+- [x] SQLite
+
 # Deployment
 
 ```bash
@@ -17,4 +43,4 @@ uvicorn main:app
 
 # Document
 
-Once you have completed the deployment, you can access API document via visiting `http://[ip-address]/docs`
+Once you have completed the deployment, you can access API documents via visiting `http://[ip-address]/docs`
