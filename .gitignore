@@ -1,4 +1,4 @@
-./.idea
-./venv/
-./ds/data/
-./config/mail.py
+./.idea/*
+./venv/*
+./ds/data/*
+config/mail.py
