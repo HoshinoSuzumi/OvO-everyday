@@ -34,6 +34,10 @@ _xss_tags_whitelist = {
     'blockquote': [],
 }
 
+_xss_values_blacklist = [
+    'javascript'
+]
+
 
 class Utils:
     @staticmethod
@@ -60,11 +64,14 @@ class Utils:
                 continue
 
             input_attrs = tag.attrs
+            print('!!! ', input_attrs)
             valid_attrs = _xss_tags_whitelist[tag.name]
 
             for k in list(input_attrs.keys()):
                 if k in valid_attrs:
-                    pass
+                    for v in _xss_values_blacklist:
+                        if tag.attrs[k].find(v) != -1:
+                            del tag.attrs[k]
                 else:
                     del tag.attrs[k]
         return soup.decode()
