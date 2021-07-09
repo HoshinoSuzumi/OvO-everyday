@@ -1,14 +1,11 @@
-import json
-from typing import List
-from pydantic import BaseModel
-
 from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
 from sqlalchemy.orm import Session
 
 from ds import *
-from utils import Utils
+from lib.utils import Utils
+from config.mail import Template
 
 models.ModelBase.metadata.create_all(bind=database.DATABASE_ENGINE)
 
@@ -87,3 +84,16 @@ def create_comment(comment: schemas.CommentCreate, db: Session = Depends(get_db)
 @app.post('/reply', response_model=schemas.Reply)
 def create_reply(reply: schemas.ReplyCreate, db: Session = Depends(get_db)):
     return crud.create_reply(db=db, reply=reply)
+
+
+if __name__ == '__main__':
+    from lib.email import Exchange
+
+    Exchange().send(
+        mailto='rbq@ibox.moe',
+        fields={
+            'content': '测试邮件内容',
+            'domain': 'localhost'
+        },
+        template=Template.TEMPLATE_REPLY
+    )

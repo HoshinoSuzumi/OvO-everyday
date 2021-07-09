@@ -3,7 +3,7 @@ import urllib.parse
 
 from sqlalchemy.orm import Session
 
-from utils import Utils
+from lib.utils import Utils
 from . import models, schemas
 
 
@@ -61,7 +61,7 @@ def create_reply(db: Session, reply: schemas.ReplyCreate):
         id=str(Utils.uuid_unmapped()),
         ctime=datetime.datetime.now(),
         content=Utils.xss_filter(reply.content),
-        user=reply.user,
+        user=dict(reply.user),
         cid=reply.cid
     )
     db.add(db_reply)
