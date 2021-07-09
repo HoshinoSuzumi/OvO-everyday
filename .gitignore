@@ -1,3 +1,3 @@
-venv/
-ds/data/
-config/mail.py
+./venv/
+./ds/data/
+./config/mail.py
