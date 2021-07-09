@@ -12,6 +12,11 @@ OvO is a great self-deployed comment system
 
 ## Email notification
 
+**Basic functions**
+
+- [x] Reply notification
+- [x] Mention parse and notification
+
 **Protocol support**
 
 - [x] Exchange support
