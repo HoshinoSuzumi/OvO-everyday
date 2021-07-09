@@ -20,6 +20,8 @@ class User(UserBase):
 
 class ReplyBase(BaseModel):
     content: str
+    domain: str
+    path: str
     user: User
     cid: str
 

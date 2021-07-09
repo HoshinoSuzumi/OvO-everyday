@@ -1,5 +1,6 @@
 import uuid
 from bs4 import BeautifulSoup
+from lib.email import Exchange
 
 _xss_tags_whitelist = {
     'p': [],
@@ -40,6 +41,14 @@ _xss_values_blacklist = [
 
 
 class Utils:
+    __mailer = None
+
+    def __init__(self):
+        self.__mailer = Exchange()
+
+    def get_mailer(self):
+        return self.__mailer
+
     @staticmethod
     def uuid_mapped(name):
         return uuid.uuid5(uuid.NAMESPACE_X500, name)
@@ -64,7 +73,6 @@ class Utils:
                 continue
 
             input_attrs = tag.attrs
-            print('!!! ', input_attrs)
             valid_attrs = _xss_tags_whitelist[tag.name]
 
             for k in list(input_attrs.keys()):

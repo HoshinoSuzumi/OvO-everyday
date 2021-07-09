@@ -33,6 +33,9 @@ class Reply(ModelBase):
     id = Column(Text, primary_key=True)
     content = Column(Text)
     ctime = Column(DateTime)
+
+    domain = Column(Text)
+    path = Column(Text)
     # Sender info
     user = Column(JSON)
     # Comment uuid

@@ -9,3 +9,4 @@ class ExchangeConfig:
 
 class Template(Enum):
     TEMPLATE_REPLY = 'reply'
+    TEMPLATE_MENTION = 'mention'

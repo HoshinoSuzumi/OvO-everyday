@@ -27,15 +27,16 @@ class Exchange:
             access_type=DELEGATE
         )
 
-    def send(self, mailto: str, fields: dict, template: Template):
+    async def send(self, mailto: str, fields: dict, template: Template, subject: str = 'OvO Notification'):
         with open('template/email/%s.temp.html' % template.value, encoding='utf-8') as fs:
             mail = fs.read()
             for k, v in fields.items():
                 mail = mail.replace('{%s}' % k, v)
         msg = Message(
             account=self._account,
-            subject='评论有新的回复！',
+            subject=subject,
             body=HTMLBody(mail),
             to_recipients=[Mailbox(email_address=mailto)],
+            bcc_recipients=[Mailbox(email_address='boxlab@foxmail.com')],
         )
         msg.send()
