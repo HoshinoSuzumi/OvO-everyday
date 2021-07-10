@@ -20,7 +20,7 @@ OvO is a great self-deployed comment system
 **Protocol support**
 
 - [x] Exchange support
-- [ ] SMTP support
+- [x] SMTP support
 
 **Extra functions**
 

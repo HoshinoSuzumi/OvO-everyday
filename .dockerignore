@@ -1,0 +1,6 @@
+.git
+.gitignore
+ovo-test.html
+README.md
+ds/data/ovo.db
+config/*.example.py

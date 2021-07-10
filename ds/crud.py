@@ -1,4 +1,4 @@
-import datetime
+import datetime, pytz
 import urllib.parse
 import asyncio
 
@@ -42,7 +42,7 @@ def get_comments_count(db: Session):
     return db.query(models.Comment).count()
 
 
-def get_comments(db: Session, domain: str, path: str, offset: int = 0, limit: int = 10):
+def get_comments(db: Session, domain: str, path: str, offset: int = 0, limit: int = 10) -> list[schemas.Comment]:
     return db.query(models.Comment) \
         .filter(models.Comment.domain == urllib.parse.unquote(domain)) \
         .filter(models.Comment.path == urllib.parse.unquote(path)) \
@@ -77,8 +77,8 @@ def get_users_from_message(db: Session, message: str) -> list[schemas.UserCreate
 
 def create_comment(db: Session, comment: schemas.CommentCreate):
     db_comment = models.Comment(
-        id=str(Utils.uuid_unmapped()),
-        ctime=datetime.datetime.now(),
+        id=str(Utils.uuid_unmapped())[0:7],
+        ctime=datetime.datetime.now(pytz.timezone('Asia/Shanghai')),
         content=Utils.xss_filter(comment.content),
         domain=comment.domain,
         path=comment.path,
@@ -108,8 +108,8 @@ def create_or_update_user(db: Session, user: schemas.UserCreate):
 
 def create_reply(db: Session, reply: schemas.ReplyCreate):
     db_reply = models.Reply(
-        id=str(Utils.uuid_unmapped()),
-        ctime=datetime.datetime.now(),
+        id=str(Utils.uuid_unmapped())[0:7],
+        ctime=datetime.datetime.now(pytz.timezone('Asia/Shanghai')),
         content=Utils.xss_filter(reply.content),
         domain=reply.domain,
         path=reply.path,

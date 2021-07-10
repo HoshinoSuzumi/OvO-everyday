@@ -1,6 +1,6 @@
 import uuid
 from bs4 import BeautifulSoup
-from lib.email import Exchange
+from lib.email import MailController
 
 _xss_tags_whitelist = {
     'p': [],
@@ -44,7 +44,7 @@ class Utils:
     __mailer = None
 
     def __init__(self):
-        self.__mailer = Exchange()
+        self.__mailer = MailController().get_mail_engine()
 
     def get_mailer(self):
         return self.__mailer
