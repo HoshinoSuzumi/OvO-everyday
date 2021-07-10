@@ -8,5 +8,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 EXPOSE 80
+VOLUME /usr/src/app/ds/data
 
 CMD [ "uvicorn", "--header", "server:ovo-powered", "--host", "0.0.0.0", "--port", "80", "main:app" ]
